@@ -1,0 +1,20 @@
+.iw_inner {
+    width: 400px; /* 원하는 너비 */
+    height: 150px; /* 원하는 높이 */
+    overflow: hidden; /* 내용이 넘칠 경우 숨기기 */
+    display: flex; /* 플렉스 박스 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    border-radius: 50px; /* 모서리를 둥글게 */
+    background-color: rgb(135, 73, 73); /* 배경색 추가 */
+}
+
+
+.iw_inner h3 {
+    margin: 0; /* 기본 margin 제거 */
+}
+
+.thumb {
+    margin-left: 10px; /* 이미지와 텍스트 간 여백 */
+    width: 55px; /* 이미지 너비 */
+    height: 55px; /* 이미지 높이 */
+}
