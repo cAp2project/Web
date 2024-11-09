@@ -12,14 +12,39 @@ var mapOptions = {
     }
 };
 
+
 window.onload = function() {
-    // mapOptions를 사용하여 지도 생성
+    // 지도 생성
     var map = new naver.maps.Map('map', mapOptions);
 
     // 마커 생성
     var marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(33.4547583, 126.5622562), // 마커 위치 (제주도 내 위치)
+        position: new naver.maps.LatLng(33.4547583, 126.5622562), // 제주도 내 마커 위치
         map: map // 마커가 표시될 지도
+    });
+
+    // 인포윈도우 내용
+    var contentString = [
+        '<div class="iw_inner"  style="display: flex; align-items: center; width: 200px; height: 150px;">',
+        '   <h3>제주도 마커</h3>',
+        '   <p>포트홀 위치 입니다.<br />',
+      '       <img src="pothole.jpg" width="55" height="55" alt="제주도" class="thumb style="margin-right: 10px;" /><br />',
+
+        '   </p>',
+        '</div>'
+    ].join('');
+
+    var infowindow = new naver.maps.InfoWindow({
+        content: contentString
+    });
+
+    // 마커 클릭 이벤트
+    naver.maps.Event.addListener(marker, "click", function(e) {
+        if (infowindow.getMap()) {
+            infowindow.close();
+        } else {
+            infowindow.open(map, marker);
+        }
     });
 };
 
