@@ -23,6 +23,7 @@ window.onload = function() {
     });
 };
 
+//test123
 
 var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
