@@ -12,6 +12,7 @@ var mapOptions = {
     }
 };
 
+
 window.onload = function() {
     // 지도 생성
     var map = new naver.maps.Map('map', mapOptions);
@@ -23,15 +24,15 @@ window.onload = function() {
     });
 
     // 인포윈도우 내용
-    var contentString = `
-        <div class="iw_inner">
-            <h3>위치 문구</h3>
-            <p>
-                포트홀 위치입니다.<br />
-                <img src="pothole.jpg" class="thumb" alt="제주도" />
-            </p>
-        </div>
-    `;
+    var contentString = [
+        '<div class="iw_inner"  style="display: flex; align-items: center; width: 200px; height: 150px;">',
+        '   <h3>제주도 마커</h3>',
+        '   <p>포트홀 위치 입니다.<br />',
+      '       <img src="pothole.jpg" width="55" height="55" alt="제주도" class="thumb style="margin-right: 10px;" /><br />',
+
+        '   </p>',
+        '</div>'
+    ].join('');
 
     var infowindow = new naver.maps.InfoWindow({
         content: contentString
@@ -46,3 +47,8 @@ window.onload = function() {
         }
     });
 };
+
+//test123
+
+var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
+
