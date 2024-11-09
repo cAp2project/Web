@@ -3,4 +3,6 @@ var mapOptions = {
     zoom: 10
 };
 
+//tesssssssssssssssssst
+
 var map = new naver.maps.Map('map', mapOptions);
