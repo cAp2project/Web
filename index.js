@@ -25,11 +25,11 @@ window.onload = function() {
 
     // 인포윈도우 내용
     var contentString = [
-        '<div class="iw_inner"  style="display: flex; align-items: center; width: 200px; height: 150px;">',
-        '   <h3>제주도 마커</h3>',
-        '   <p>포트홀 위치 입니다.<br />',
-      '       <img src="pothole.jpg" width="55" height="55" alt="제주도" class="thumb style="margin-right: 10px;" /><br />',
-
+        '<div class="iw_inner">',
+        '       <img src="pothole.jpg" width="350" height="210" alt="서울시청" class="thumb" /><br>',
+        '   <h3>\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0포트홀 위치 문구 예정\u00A0\u00A0</h3>',
+        '       제주특별자치도 포트홀 신고접수 링크 <br>',
+        '       <a href="https://www.jeju.go.kr/online/hope.htm" target="_blank">https://www.jeju.go.kr/online/hope.htm/</a>',
         '   </p>',
         '</div>'
     ].join('');
@@ -48,7 +48,7 @@ window.onload = function() {
     });
 };
 
-//test123
+
 
 var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
 
