@@ -12,7 +12,6 @@ var mapOptions = {
     }
 };
 
-
 window.onload = function() {
     // 지도 생성
     var map = new naver.maps.Map('map', mapOptions);
@@ -23,14 +22,16 @@ window.onload = function() {
         map: map // 마커가 표시될 지도
     });
 
+    // 마커의 위치 정보를 가져와 인포윈도우 내용에 추가
+    var lat = marker.getPosition().lat();
+    var lng = marker.getPosition().lng();
+
     // 인포윈도우 내용
     var contentString = [
-        '<div class="iw_inner">',
-        '       <img src="pothole.jpg" width="350" height="210" alt="서울시청" class="thumb" /><br>',
-        '   <h3>\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0포트홀 위치 문구 예정\u00A0\u00A0</h3>',
-        '       제주특별자치도 포트홀 신고접수 링크 <br>',
-        '       <a href="https://www.jeju.go.kr/online/hope.htm" target="_blank">https://www.jeju.go.kr/online/hope.htm/</a>',
-        '   </p>',
+        '<div class="iw_inner" style="text-align: center;">', // 가운데 정렬을 위한 스타일 추가
+        '   <img src="pothole.jpg" width="350" height="210" alt="포트홀 이미지" class="thumb" /><br>',
+        '   <h3>포트홀 위치 정보</h3>',
+        '   <p>위도: ' + lat.toFixed(6) + ' / 경도: ' + lng.toFixed(6) + '</p>',
         '</div>'
     ].join('');
 
@@ -48,7 +49,4 @@ window.onload = function() {
     });
 };
 
-
-
 var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
-
