@@ -1,52 +1,66 @@
-var mapOptions = {
-    center: new naver.maps.LatLng(33.3616666, 126.5291666), // 제주도의 중심 좌표
-    zoom: 10.8, // 제주도를 전체적으로 볼 수 있는 줌 레벨
-    scaleControl: true,
-    logoControl: false,
-    mapDataControl: false,
-    minZoom: 6,
-    zoomControl: true,
-    zoomControlOptions: {
-        style: naver.maps.ZoomControlStyle.SMALL,
-        position: naver.maps.Position.TOP_RIGHT
-    }
-};
-
 window.onload = function() {
-    // 지도 생성
+    var mapOptions = {
+        center: new naver.maps.LatLng(33.4547583, 126.5622562), // Set initial map center
+        zoom: 10 // Adjust zoom level as needed
+    };
     var map = new naver.maps.Map('map', mapOptions);
 
-    // 마커 생성
-    var marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(33.4547583, 126.5622562), // 제주도 내 마커 위치
-        map: map // 마커가 표시될 지도
-    });
+    // Paths to the pothole image and GPS file
+    var imagePath = 'pothole/1.jpg';  // Update path if necessary
+    var gpsPath = 'pothole/1gps.txt'; // Update path if necessary
 
-    // 마커의 위치 정보를 가져와 인포윈도우 내용에 추가
-    var lat = marker.getPosition().lat();
-    var lng = marker.getPosition().lng();
+    // Display the pothole image
+    var img = document.getElementById('pothole-image');
+    img.src = imagePath;
+    img.style.display = 'block';
 
-    // 인포윈도우 내용
-    var contentString = [
-        '<div class="iw_inner" style="text-align: center;">', // 가운데 정렬을 위한 스타일 추가
-        '   <img src="pothole.jpg" width="350" height="210" alt="포트홀 이미지" class="thumb" /><br>',
-        '   <h3>포트홀 위치 정보</h3>',
-        '   <p>위도: ' + lat.toFixed(6) + ' / 경도: ' + lng.toFixed(6) + '</p>',
-        '</div>'
-    ].join('');
+    // Error handling for image loading
+    img.onerror = function() {
+        console.error("Image failed to load. Check the path:", imagePath);
+    };
+    img.onload = function() {
+        console.log("Image loaded successfully:", imagePath);
+    };
 
-    var infowindow = new naver.maps.InfoWindow({
-        content: contentString
-    });
+    // Fetch GPS data and parse latitude and longitude
+    fetch(gpsPath)
+        .then(response => {
+            if (!response.ok) throw new Error('GPS file not found at path: ' + gpsPath);
+            return response.text();
+        })
+        .then(text => {
+            document.getElementById('gps-data').textContent = text;
+            document.getElementById('gps-data').style.display = 'block';
 
-    // 마커 클릭 이벤트
-    naver.maps.Event.addListener(marker, "click", function(e) {
-        if (infowindow.getMap()) {
-            infowindow.close();
-        } else {
-            infowindow.open(map, marker);
-        }
-    });
+            // Extract latitude and longitude from the file
+            var [lat, lng] = text.split(',').map(coord => parseFloat(coord.trim()));
+
+            if (isNaN(lat) || isNaN(lng)) {
+                console.error("Invalid GPS data:", lat, lng);
+                return;
+            }
+
+            // Create a marker based on latitude and longitude
+            var marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(lat, lng),
+                map: map
+            });
+
+            // Define info window content
+            var infowindow = new naver.maps.InfoWindow({
+                content: [
+                    '<div class="iw_inner" style="text-align: center;">',
+                    '   <img src="' + imagePath + '" width="350" height="210" alt="포트홀 이미지" class="thumb" /><br>',
+                    '   <h3>포트홀 위치 정보</h3>',
+                    '   <p>위도: ' + lat.toFixed(6) + ' / 경도: ' + lng.toFixed(6) + '</p>',
+                    '</div>'
+                ].join('')
+            });
+
+            // Toggle the infowindow on marker click
+            naver.maps.Event.addListener(marker, "click", function() {
+                infowindow.getMap() ? infowindow.close() : infowindow.open(map, marker);
+            });
+        })
+        .catch(error => console.error('Error fetching GPS data or invalid data format:', error));
 };
-
-var map = new naver.maps.Map(document.getElementById('map'), mapOptions);
